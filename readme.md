@@ -390,7 +390,7 @@ declared in the `extern` object and defined elsewhere in a C file.
 
 contains the following code:
 
-``` {.objectivec language="C"}
+``` {.C language="C"}
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
