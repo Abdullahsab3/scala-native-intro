@@ -331,13 +331,10 @@ Below is the result of executing this example.
     Ages are: 1 1 1 1 1 1 1 1 1 1 
     Ages are: 1 1 1 1 2 1 1 1 1 1 
 
-## A program with Zone Allocation {#zone-allocation-example}
+## A program with Zone Allocation
 
 This example demonstrates how the zone allocation can be used. This is
-the same example as
-[4.2](#stack-allocation-example){reference-type="ref"
-reference="stack-allocation-example"}, but this time the memory is
-allocated using the zone allocator.
+the same example as the previous one, but the memory is now allocated using zones.
 
 ``` {.scala language="Scala"}
 import scalanative.unsafe._
