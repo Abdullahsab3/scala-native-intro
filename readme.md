@@ -1,5 +1,5 @@
 
-# Scala Native
+# A Gentle Introduction to Scala Native
 
 Scala Native is an ahead-of-time compiler and runtime designed for
 Scala. It makes it possible to integrate low-level code with Scala code
