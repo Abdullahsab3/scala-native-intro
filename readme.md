@@ -138,8 +138,8 @@ pointers. A complete list can be found in the documentation of the
 shows a list of the most popular ones, alongside their Scala Native
 equivalent.
 
-| C Type              | Scala Native                                          |
-|---------------------|-------------------------------------------------------|
+| C Type                | Scala Native                                            |
+|---------------------  |---------------------------------------------------------|
 | `void`                | `Unit`                                                  |
 | `int`                 | `unsafe.CInt`                                           |
 | `int*`                | `unsafe.Ptr[unsafe.CInt]`                               |
@@ -155,9 +155,9 @@ Native equivalents can be found in the following table:
 |---------------------------------------|--------------------------|-------------------------|
 | Load a value from an address          | `*ptr`                   | `!ptr`                  |
 | Store a value to a given address      | `*ptr = value`           | `!ptr = value`          |
-| Pointer to an index                   | `ptr + i; &ptr``[``i``]` | `ptr + i`               |
-| Load a value from an index            | `ptr``[``i``]`           | `ptr(i)`                |
-| Store a value to an index             | `ptr``[``i``]`` = value` | `ptr(i) = value`        |
+| Pointer to an index                   | `ptr + i; &ptr[i]`       | `ptr + i`               |
+| Load a value from an index            | `ptr[i]`                 | `ptr(i)`                |
+| Store a value to an index             | `ptr[i]` = value`        | `ptr(i) = value`        |
 | Pointer to a field of a struct        | `&ptr->name`             | `ptr.atN`               |
 | Load a value from a field of a struct | `ptr->name`              | `ptr._N`                |
 | Store a value to a field of a struct  | `ptr->name = value`      | `ptr._N = value`        |
