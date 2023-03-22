@@ -540,15 +540,15 @@ lazy val mafNative = maf.native
 
 [^1]: [Wojciech Mazur. A Deep Dive into Scala Native Internals. Scala Love conference, 2021.](https://www.youtube.com/watch?v=IejfsO_P5OA&ab_channel=Konfy)
 
-[^2]: <Wojciech Mazur. Scala Native Internals Overview . Scala 3 Compiler Academy, 2022.>
+[^2]: [Wojciech Mazur. Scala Native Internals Overview . Scala 3 Compiler Academy, 2022.](https://www.youtube.com/watch?v=U2GUUjxn5xQ&ab_channel=Scala3CompilerAcademy)
 
-[^3]: <Denys Shabalin and Martin Odersky. Interflow: Interprocedural Flow-Sensitive Type Inference and Method Duplication. In Proceedings of the 9th ACM SIGPLAN International Symposium on Scala, pages 61–71, 2018>
+[^3]: [Denys Shabalin and Martin Odersky. Interflow: Interprocedural Flow-Sensitive Type Inference and Method Duplication. In Proceedings of the 9th ACM SIGPLAN International Symposium on Scala, pages 61–71, 2018](https://dl.acm.org/doi/pdf/10.1145/3241653.3241660?casa_token=kFqsHWbGtvwAAAAA:J3fiYmKADBovxkavN6yc_66rz6AgHQ-apVIT447Y7cWH77mXiv0ETk0E-wIulc3mrNtc5Rofn12VUxg)
 
-[^4]: <Denys Shabalin et al. Scala Native Documentation, chapter Contributor’s Guide. EPFL, 2022. Release 0.4.9.>
+[^4]: [Denys Shabalin et al. Scala Native Documentation, chapter Contributor’s Guide. EPFL, 2022. Release 0.4.9.](https://scala-native.org/en/stable/user/index.html)
 
-[^5]: <Denys Shabalin et al. Scala Native Documentation, chapter User’s Guide. EPFL, 2022. Release 0.4.9>
+[^5]: [Denys Shabalin et al. Scala Native Documentation, chapter User’s Guide. EPFL, 2022. Release 0.4.9](https://scala-native.org/en/stable/contrib/index.html)
 
-[^6]: <Tim Lindholm, Frank Yellin, Gilad Bracha, Alex Buckley, and Daniel Smith. The Java Virtual Machine Specification, Java SE 8 Edition, chapter The Structure of the Java Virtual Machine. Oracle, 2022.>
+[^6]: [Tim Lindholm, Frank Yellin, Gilad Bracha, Alex Buckley, and Daniel Smith. The Java Virtual Machine Specification, Java SE 8 Edition, chapter The Structure of the Java Virtual Machine. Oracle, 2022.](https://docs.oracle.com/javase/specs/jvms/se8/html/)
 
 [^7]: <https://www.hboehm.info/gc/>
 
