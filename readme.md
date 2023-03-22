@@ -8,7 +8,7 @@ on the host machine, instead of running on the JVM.
 
 The goal of Scala Native is to reduce the memory usage overhead of the
 JVM that is the result of the JIT compiler and the dynamic class loading
-[@scalanativeInternals]. Given that Scala Native compiles code directly
+[^1]. Given that Scala Native compiles code directly
 to machine code before its execution and this code gets executed
 natively on the host machine, the startup time of Scala Native programs
 is significantly lower than Scala programs that run on the JVM. 
@@ -20,7 +20,7 @@ languages such as C, which will be discussed later in this guide.
 Understanding how Scala Native works allows us to understand the meaning
 of the different errors that we might encounter while writing code with
 Scala Native. Thus, understanding the pipeline helps us write better
-code with Scala Native.
+code with Scala Native.[^1] [^2]
 
 Compiling Scala code with Scala Native to an executable happens in
 multiple phases. These
@@ -55,7 +55,7 @@ files of external libraries on which the project depends.
 
 Once all the NIR sources are linked, the optimizer will optimize them.
 An example of these optimisations is partial evaluation, which will
-evaluate instructions that have predictable results at compile time.
+evaluate instructions that have predictable results at compile time. [^3]
 
 ### Translating NIR Sources to LLVM IR
 
@@ -77,11 +77,11 @@ link them to build the application.
 
 # Scala Native Memory Management
 
-Scala Native comes with a garbage collector (Boehm GC [^1]) that
+Scala Native comes with a garbage collector (Boehm GC [^7]) that
 automatically manages memory for objects. This garbage collector is
 built to run natively on the host machine.
 
-Memory can also be manually allocated for C types. This could be
+Memory can also be manually allocated for C types[^5]. This could be
 useful to interact with external C functions that have pointers as
 arguments, or to improve the performance of a Scala Native program by
 minimizing the amount of work the garbage collector has to do. The state
@@ -96,7 +96,7 @@ compiler to Java Byte Code which will run on a JVM, the JVM will load
 classes dynamically at run time to the heap memory. Generally, the JVM
 will store all objects on the heap memory. Variables are references to
 those objects, and can be stored on the stack, e.g., when calling a
-function which has local variables. The garbage collection
+function which has local variables[^6]. The garbage collection
 is taken care of by the JVM. Scala has no way of manually allocating
 memory.
 
@@ -106,7 +106,7 @@ memory.
 
 Heap memory can be dynamically allocated in Scala Native using the
 bindings that Scala Native offers for the C functions that perform
-dynamic heap memory manipulation. These functions are `malloc`,
+dynamic heap memory manipulation[^5]. These functions are `malloc`,
 `free` and `realloc`. Using these functions, memory from the heap can be
 dynamically allocated and freed once it is no longer needed. It is the
 responsibility of the programmer to free the dynamically allocated heap
@@ -115,16 +115,16 @@ memory; the program will have otherwise memory leaks.
 ### Stack Memory Allocation
 
 It is possible to manually allocate memory on the stack inside a given
-method [@sn]. This can be useful given than the stack memory is faster
+method [^5]. This can be useful given than the stack memory is faster
 than the heap memory. The allocated stack memory will be freed once the
 method in which they are allocated returns..
 
 ### Zone Allocation
 
-Zones are another way to perform memory allocations. Using zones,
+Zones are another way to perform memory allocations [^5]. Using zones,
 memory can be temporarily allocated for C types on the zone heap, and
 once the execution leaves the defined zone, the zone allocator will free
-all the memory allocated inside that zone.
+all the memory allocated inside that zone. In other words, using zones, you can have semi-automatic memory management.
 
 # Features of Scala Native
 
@@ -132,7 +132,7 @@ all the memory allocated inside that zone.
 
 Scala Native provides built-in equivalents of most C data types and
 pointers. A complete list can be found in the documentation of the
-`scala.scalanative.unsafe` package[^2]. The following table
+`scala.scalanative.unsafe` package [^8] [^5]. The following table
 shows a list of the most popular ones, alongside their Scala Native
 equivalent.
 
@@ -538,8 +538,20 @@ lazy val maf = crossProject(JVMPlatform, JSPlatform, NativePlatform)
 lazy val mafNative = maf.native
 ```
 
-[^1]: <https://www.hboehm.info/gc/>
+[^1]: <Wojciech Mazur. A Deep Dive into Scala Native Internals. Scala Love conference, 2021.>
 
-[^2]: <https://javadoc.io/doc/org.scala-native/nativelib_native0.4_3/latest/scala/scalanative/unsafe.html>
+[^2]: <Wojciech Mazur. Scala Native Internals Overview . Scala 3 Compiler Academy, 2022.>
 
-[^3]: <https://github.com/portable-scala/sbt-crossproject>
+[^3]: <Denys Shabalin and Martin Odersky. Interflow: Interprocedural Flow-Sensitive Type Inference and Method Duplication. In Proceedings of the 9th ACM SIGPLAN International Symposium on Scala, pages 61–71, 2018>
+
+[^4]: <Denys Shabalin et al. Scala Native Documentation, chapter Contributor’s Guide. EPFL, 2022. Release 0.4.9.>
+
+[^5]: <Denys Shabalin et al. Scala Native Documentation, chapter User’s Guide. EPFL, 2022. Release 0.4.9>
+
+[^6]: <Tim Lindholm, Frank Yellin, Gilad Bracha, Alex Buckley, and Daniel Smith. The Java Virtual Machine Specification, Java SE 8 Edition, chapter The Structure of the Java Virtual Machine. Oracle, 2022.>
+
+[^7]: <https://www.hboehm.info/gc/>
+
+[^8]: <https://javadoc.io/doc/org.scala-native/nativelib_native0.4_3/latest/scala/scalanative/unsafe.html>
+
+[^9]: <https://github.com/portable-scala/sbt-crossproject>
