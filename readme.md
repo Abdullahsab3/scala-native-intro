@@ -538,7 +538,7 @@ lazy val maf = crossProject(JVMPlatform, JSPlatform, NativePlatform)
 lazy val mafNative = maf.native
 ```
 
-[^1]: <Wojciech Mazur. A Deep Dive into Scala Native Internals. Scala Love conference, 2021.>
+[^1]: [Wojciech Mazur. A Deep Dive into Scala Native Internals. Scala Love conference, 2021.](https://www.youtube.com/watch?v=IejfsO_P5OA&ab_channel=Konfy)
 
 [^2]: <Wojciech Mazur. Scala Native Internals Overview . Scala 3 Compiler Academy, 2022.>
 
