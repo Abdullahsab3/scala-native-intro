@@ -1,3 +1,5 @@
+General knowledge in programming and Scala is assumed.
+
 
 # A Gentle Introduction to Scala Native
 
