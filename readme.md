@@ -11,12 +11,9 @@ JVM that is the result of the JIT compiler and the dynamic class loading
 [@scalanativeInternals]. Given that Scala Native compiles code directly
 to machine code before its execution and this code gets executed
 natively on the host machine, the startup time of Scala Native programs
-is significantly lower than Scala programs that run on the JVM. Scala
-Native also offers the possibility to interoperate with low-level
-languages such as C.
-
-Scala Native is going to be used in my thesis in order to optimize
-analyses created by MAF, given that MAF is implemented using Scala.
+is significantly lower than Scala programs that run on the JVM. 
+Scala Native also offers the possibility to interoperate with low-level
+languages such as C, which will be discussed later in this guide.
 
 # The Scala Native Pipeline
 
@@ -26,9 +23,8 @@ Scala Native. Thus, understanding the pipeline helps us write better
 code with Scala Native.
 
 Compiling Scala code with Scala Native to an executable happens in
-multiple phases [@scalanativeInternals; @scalanativeinternals_2]. These
-phases are illustrated in Figure [1](#sn-pipeline){reference-type="ref"
-reference="sn-pipeline"}.
+multiple phases. These
+phases are illustrated in the following figure:
 
 ![Pipeline](pipeline.jpg)
 
@@ -37,7 +33,7 @@ reference="sn-pipeline"}.
 Native Intermediate Representation (NIR) is a representation which
 consists of a subset of LLVM IR instructions and values, enriched by
 instructions to represent high-level operands, such as classes and
-traits, and operations, such as classOf [@sn_contr].
+traits, and operations, such as classOf.
 
 One of the main advantages of NIR is that it is strongly typed. It
 stores for example additional information about a given class that is
@@ -59,8 +55,7 @@ files of external libraries on which the project depends.
 
 Once all the NIR sources are linked, the optimizer will optimize them.
 An example of these optimisations is partial evaluation, which will
-evaluate instructions that have predictable results at compile time
-[@shabalin2018interflow].
+evaluate instructions that have predictable results at compile time.
 
 ### Translating NIR Sources to LLVM IR
 
@@ -86,7 +81,7 @@ Scala Native comes with a garbage collector (Boehm GC [^1]) that
 automatically manages memory for objects. This garbage collector is
 built to run natively on the host machine.
 
-Memory can also be manually allocated for C types [@sn]. This could be
+Memory can also be manually allocated for C types. This could be
 useful to interact with external C functions that have pointers as
 arguments, or to improve the performance of a Scala Native program by
 minimizing the amount of work the garbage collector has to do. The state
@@ -101,7 +96,7 @@ compiler to Java Byte Code which will run on a JVM, the JVM will load
 classes dynamically at run time to the heap memory. Generally, the JVM
 will store all objects on the heap memory. Variables are references to
 those objects, and can be stored on the stack, e.g., when calling a
-function which has local variables [@JVMspecs]. The garbage collection
+function which has local variables. The garbage collection
 is taken care of by the JVM. Scala has no way of manually allocating
 memory.
 
@@ -111,83 +106,62 @@ memory.
 
 Heap memory can be dynamically allocated in Scala Native using the
 bindings that Scala Native offers for the C functions that perform
-dynamic heap memory manipulation [@sn]. These functions are `malloc`,
+dynamic heap memory manipulation. These functions are `malloc`,
 `free` and `realloc`. Using these functions, memory from the heap can be
 dynamically allocated and freed once it is no longer needed. It is the
 responsibility of the programmer to free the dynamically allocated heap
-memory; the program will have otherwise memory leaks. Section
-[4.1](#scala-native-example){reference-type="ref"
-reference="scala-native-example"} demonstrates how C types can be stored
-on manually allocated memory on the heap.
+memory; the program will have otherwise memory leaks. 
 
 ### Stack Memory Allocation
 
 It is possible to manually allocate memory on the stack inside a given
 method [@sn]. This can be useful given than the stack memory is faster
 than the heap memory. The allocated stack memory will be freed once the
-method in which they are allocated returns. Section
-[4.2](#stack-allocation-example){reference-type="ref"
-reference="stack-allocation-example"} demonstrates how C types can be
-stored on manually allocated memory on the stack.
+method in which they are allocated returns..
 
 ### Zone Allocation
 
-Zones are another way to perform memory allocations [@sn]. Using zones,
+Zones are another way to perform memory allocations. Using zones,
 memory can be temporarily allocated for C types on the zone heap, and
 once the execution leaves the defined zone, the zone allocator will free
-all the memory allocated inside that zone. Section
-[4.3](#zone-allocation-example){reference-type="ref"
-reference="zone-allocation-example"} demonstrates how zones can be used
-for semi-automatic memory management.
+all the memory allocated inside that zone.
 
 # Features of Scala Native
 
-## Low-level Primitives {#primitives}
+## Low-level Primitives
 
 Scala Native provides built-in equivalents of most C data types and
 pointers. A complete list can be found in the documentation of the
-`scala.scalanative.unsafe` package[^2]. Table
-[1](#primitive-types){reference-type="ref" reference="primitive-types"}
+`scala.scalanative.unsafe` package[^2]. The following table
 shows a list of the most popular ones, alongside their Scala Native
 equivalent.
 
-::: {#primitive-types}
-  **C type**                **Scala Native**
-  ------------------------- ---------------------------------------------------------------------
-  `void`                    `Unit`
-  `int`                     `unsafe.CInt`
-  `int*`                    `unsafe.Ptr``[``unsafe.Int``]`
-  `long`                    `unsafe.CLong`
-  `char`                    `unsafe.CChar`
-  `char`\*                  `unsafe.CString`
-  `struct { int x, y; }*`   `unsafe.Ptr``[``unsafe.CStruct2``[``unsafe.CInt, unsafe.CInt``]``]`
+| C Type              | Scala Native                                          |
+|---------------------|-------------------------------------------------------|
+| void                | Unit                                                  |
+| int                 | unsafe.CInt                                           |
+| int*                | unsafe.Ptr[unsafe.CInt]                               |
+| long                | unsafe.CLong                                          |
+| struct {int x, y;}* | unsafe.Ptr[unsafe.CStruct2[unsafe.CInt, unsafe.CInt]] |
 
-  : Popular C types and their Scala Native equivalent.
-:::
 
 Scala Native has also support for pointer operations, such as
 dereferencing a pointer variable. These operations and their Scala
-Native equivalents can be found in Table
-[2](#pointer-ops){reference-type="ref" reference="pointer-ops"} [@sn].
+Native equivalents can be found in the following table:
 
-::: {#pointer-ops}
-  **Operation**                           **C syntax**               **Scala Native syntax**
-  --------------------------------------- -------------------------- -------------------------
-  Load a value from an address            `*ptr`                     `!ptr`
-  Store a value to a given address        `*ptr = value`             `!ptr = value`
-  Pointer to an index                     `ptr + i; &ptr``[``i``]`   `ptr + i`
-  Load a value from an index              `ptr``[``i``]`             `ptr(i)`
-  Store a value to an index               `ptr``[``i``]`` = value`   `ptr(i) = value`
-  Pointer to a field of a struct          `&ptr->name`               `ptr.atN`
-  Load a value from a field of a struct   `ptr->name`                `ptr._N`
-  Store a value to a field of a struct    `ptr->name = value`        `ptr._N = value`
+| Operation                           | **C syntax**             | **Scala Native syntax** |
+|---------------------------------------|--------------------------|-------------------------|
+| Load a value from an address          | `*ptr`                   | `!ptr`                  |
+| Store a value to a given address      | `*ptr = value`           | `!ptr = value`          |
+| Pointer to an index                   | `ptr + i; &ptr``[``i``]` | `ptr + i`               |
+| Load a value from an index            | `ptr``[``i``]`           | `ptr(i)`                |
+| Store a value to an index             | `ptr``[``i``]`` = value` | `ptr(i) = value`        |
+| Pointer to a field of a struct        | `&ptr->name`             | `ptr.atN`               |
+| Load a value from a field of a struct | `ptr->name`              | `ptr._N`                |
+| Store a value to a field of a struct  | `ptr->name = value`      | `ptr._N = value`        |
 
-  : Pointer operations in C and their Scala Native equivalent.
-:::
-
-::: tablenotes
 N is the index of that field in the struct.
-:::
+
 
 Having low-level primitives with pointer operations integrated in Scala
 Native allows us to directly write low-level code in Scala code, instead
@@ -221,9 +195,9 @@ object myapi {
 }
 ```
 
-# Examples {#scala-native-examples}
+# Examples
 
-## A Program in Scala Native {#scala-native-example}
+## A Program in Scala Native
 
 This example demonstrates how low-level primitive types can be used
 inside Scala code using Scala Native. `Article` is a class that
@@ -303,7 +277,7 @@ run with sbt.
     Article "LIFUSO: A Tool for Library Feature Unveiling based on Stack Overflow Posts" is written in 2022
     Article "Result Invalidation for Incremental Modular Analyses" is written in 2023
 
-## A Program with Manual Stack Allocation {#stack-allocation-example}
+## A Program with Manual Stack Allocation
 
 This examples demonstrates how the stack can be manually allocated given
 the type of elements which will be stored and the number of elements. In
