@@ -21,7 +21,7 @@ languages such as C, which will be discussed later in this guide.
 
 Understanding how Scala Native works allows us to understand the meaning
 of the different errors that we might encounter while writing code with
-Scala Native. Thus, understanding the pipeline helps us write better
+Scala Native which helps us write better
 code with Scala Native.[^1] [^2]
 
 Compiling Scala code with Scala Native to an executable happens in
