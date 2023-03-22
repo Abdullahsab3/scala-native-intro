@@ -138,11 +138,11 @@ equivalent.
 
 | C Type              | Scala Native                                          |
 |---------------------|-------------------------------------------------------|
-| void                | Unit                                                  |
-| int                 | unsafe.CInt                                           |
-| int*                | unsafe.Ptr[unsafe.CInt]                               |
-| long                | unsafe.CLong                                          |
-| struct {int x, y;}* | unsafe.Ptr[unsafe.CStruct2[unsafe.CInt, unsafe.CInt]] |
+| `void`                | `Unit`                                                  |
+| `int`                 | `unsafe.CInt`                                           |
+| `int*`                | `unsafe.Ptr[unsafe.CInt]`                               |
+| `long`                | `unsafe.CLong`                                          |
+| `struct {int x, y;}*` | `unsafe.Ptr[unsafe.CStruct2[unsafe.CInt, unsafe.CInt]]` |
 
 
 Scala Native has also support for pointer operations, such as
