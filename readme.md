@@ -387,7 +387,7 @@ and years are created and copied to the heap. The pointers of their
 respective arrays will then be passed to the C functions that are
 declared in the `extern` object and defined elsewhere in a C file.
 
-contains the following code:
+`NativeCodeInteroperability/src/resources/scala-native/myapi.c` contains the following code:
 
 ``` {.C language="C"}
 #include <string.h>
@@ -435,7 +435,7 @@ void print_articles(Article **articles, int number_of_articles) {
 }
 ```
 
-contains the following code:
+`NativeCodeInteroperability/src/main/main.scala` contains the following code:
 
 ``` {.scala language="Scala"}
 import scalanative.unsafe._
@@ -512,18 +512,16 @@ also have additional build options to compile it to JavaScript (using
 Scala.js) or to native code (using Scala Native). This is called
 cross-compilation. It is possible to cross-compile Scala projects to
 Scala Native using `sbt-crossproject` [^3]. In order to do so, the
-project settings need to be modified. An option to complie MAF using
-Scala Native will be added. Therefore, MAF will be used to demonstrate
-how to cross-compile a project using Scala Native.
+project settings need to be modified. Here you can see an example on how to do so:
 
-In the following needs to be added:
+In `project/plugins` the following needs to be added:
 
 ``` {.scala language="Scala"}
 addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % "1.2.0")
 addSbtPlugin("org.scala-native"   % "sbt-scala-native"              % "0.4.9")
 ```
 
-In the following needs to be added or modified:
+In `build.sbt` the following needs to be added or modified:
 
 ``` {.scala language="Scala"}
 lazy val maf = crossProject(JVMPlatform, JSPlatform, NativePlatform)
