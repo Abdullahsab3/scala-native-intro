@@ -79,7 +79,7 @@ link them to build the application.
 
 # Scala Native Memory Management
 
-Scala Native comes with a garbage collector (Boehm GC [^7]) that
+Scala Native comes with a garbage collector (Immix by default) that
 automatically manages memory for objects. This garbage collector is
 built to run natively on the host machine.
 
@@ -547,7 +547,7 @@ lazy val mafNative = maf.native
 
 [^6]: [Tim Lindholm, Frank Yellin, Gilad Bracha, Alex Buckley, and Daniel Smith. The Java Virtual Machine Specification, Java SE 8 Edition, chapter The Structure of the Java Virtual Machine. Oracle, 2022.](https://docs.oracle.com/javase/specs/jvms/se8/html/)
 
-[^7]: <https://www.hboehm.info/gc/>
+[^7]: <https://scala-native.org/en/stable/user/sbt.html#garbage-collectors>
 
 [^8]: <https://javadoc.io/doc/org.scala-native/nativelib_native0.4_3/latest/scala/scalanative/unsafe.html>
 
