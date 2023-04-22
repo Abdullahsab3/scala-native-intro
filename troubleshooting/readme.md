@@ -25,5 +25,13 @@ Another potential cause of the unreachability error is that libraries (whether t
 
 If all the above-mentioned causes are not present and the unreachability error still occurs, you can try to clean the generated files using `sbt clean` if sbt is used.
 
+## Fatal error: 'Exception' not found (and/or 'Memory' not found)
+
+It is not always clear what might cause this issue. Most likely it is a missing dependency. Installing the following dependency might fix the issue on Linux (Ubuntu)[^1]:
+
+```sudo apt install libstdc++-12-dev```
+
+
 
 [^1] <https://github.com/scala-native/scala-native/issues/3215>
+[^2]<https://github.com/scala-native/scala-native/issues/3098>
