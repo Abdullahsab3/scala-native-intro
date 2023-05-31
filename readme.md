@@ -511,7 +511,7 @@ That is, the Scala code can be compiled to Java bytecode, but it can
 also have additional build options to compile it to JavaScript (using
 Scala.js) or to native code (using Scala Native). This is called
 cross-compilation. It is possible to cross-compile Scala projects to
-Scala Native using `sbt-crossproject` [^3]. In order to do so, the
+Scala Native using `sbt-crossproject` [^9]. In order to do so, the
 project settings need to be modified. Here you can see an example on how to do so:
 
 In `project/plugins` the following needs to be added:
